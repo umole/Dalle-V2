@@ -15,9 +15,30 @@ export const CreatePost = () => {
   const [generateImg, setgenerateImg] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  function handleSubmit(e) {
-    //e.preventDefault();
-    
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    if (form.prompt && form.photo) {
+      setLoading(true);
+      try {
+        const response = await fetch('http://localhost:3000/api/v1/post', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          'body': JSON.stringify({...form})
+        })
+
+        await response.json();
+        navigate('/');
+      } catch (error) {
+        console.log(error);;
+      } finally {
+        setLoading(false);
+      }
+    }    else {
+      alert('Please enter a prompt or generate an image')
+    }
   }
 
   function handleChange(e) {
@@ -65,7 +86,7 @@ export const CreatePost = () => {
             labelName='your name'
             type='text'
             name='name'
-            placeholder='john Doe'
+            placeholder='John Doe'
             value={form.name}
             handleChange={handleChange}
           />
@@ -73,7 +94,7 @@ export const CreatePost = () => {
             labelName='prompt'
             type='text'
             name='prompt'
-            placeholder='earth reviving after human extinction, a new beginning, nature taking over buildings'
+            placeholder={getRandomPrompts()}
             value={form.prompt}
             handleChange={handleChange}
             isSurpriseMe

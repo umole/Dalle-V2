@@ -16,7 +16,7 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 router.get('/', (req, res) => {
     res.send('Hello from Dalle');
-})
+})  
 
 router.post('/', async (req, res) => {
     try {
