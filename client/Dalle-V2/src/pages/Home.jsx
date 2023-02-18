@@ -14,6 +14,31 @@ export const Home = () => {
   const [allPost, setAllPost] = useState(null);
   const [searchText, setSearchText] = useState('')
 
+  useEffect(() => {
+    async function fetchPosts() {
+      setLoading(true);
+
+      try {
+        const response = await fetch('http://localhost:3000/api/vi/post', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+
+        if (response.ok) {
+          const result = await response.json();
+
+          setAllPost(result.data.revese());
+         } 
+      } catch (error) {
+        alert(error);
+      } finally {
+        setLoading(false);
+      }
+    } 
+    fetchPosts();
+  }, [])
   return (
     <section className="max-w-7xl mx-auto">
       <div>
@@ -45,7 +70,7 @@ export const Home = () => {
                 />
               ) : (
                 <RenderCards 
-                  data={[]}
+                  data={allPost}
                   title='No Post Found'
                 />
               )}
