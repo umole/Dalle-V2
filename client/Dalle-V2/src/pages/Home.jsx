@@ -19,7 +19,7 @@ export const Home = () => {
       setLoading(true);
 
       try {
-        const response = await fetch('http://localhost:3000/api/vi/post', {
+        const response = await fetch('http://localhost:3000/api/v1/post', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -29,16 +29,17 @@ export const Home = () => {
         if (response.ok) {
           const result = await response.json();
 
-          setAllPost(result.data.revese());
+          setAllPost(result.data.reverse());
          } 
       } catch (error) {
-        alert(error);
+        console.log(error);
       } finally {
         setLoading(false);
       }
     } 
     fetchPosts();
   }, [])
+  
   return (
     <section className="max-w-7xl mx-auto">
       <div>
